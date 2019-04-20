@@ -1,6 +1,7 @@
 package com.jl.demo.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class CategoryService {
 				pDTO.setProductId(p.getProductId());
 				pDTO.setColorSwatches(new ArrayList<ColorSwatcheDTO>());
 				pDTO.setNowPrice(currencyUtil.getCurrencySymbol(p.getPrice().getCurrency())+p.getPrice().getNow().getTo());
+				pDTO.setPrice(p.getPrice().getNow().getTo()!=null?Float.parseFloat(p.getPrice().getNow().getTo()):null);
 				if(p.getColorSwatches()!=null && !p.getColorSwatches().isEmpty()) {
 					for(ColorSwatch cs : p.getColorSwatches()) {
 						ColorSwatcheDTO csDTO = new ColorSwatcheDTO();
@@ -54,6 +56,7 @@ public class CategoryService {
 				list.add(pDTO);
 			}
 		}
+		Collections.sort(list, ProductDTO.priceComparator);
 		return list;
 	}
 	

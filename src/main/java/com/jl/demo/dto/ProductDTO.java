@@ -1,12 +1,17 @@
 package com.jl.demo.dto;
 
+import java.util.Comparator;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class ProductDTO {
 	private String productId;
 	private String title;
 	private List<ColorSwatcheDTO> colorSwatches;
 	private String nowPrice;
+	@JsonIgnore
+	private Float price;
 	private String priceLabel;
 	
 	public String getProductId() {
@@ -39,4 +44,18 @@ public class ProductDTO {
 	public void setPriceLabel(String priceLabel) {
 		this.priceLabel = priceLabel;
 	}
+	public Float getPrice() {
+		return price;
+	}
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+	
+	public static Comparator<ProductDTO> priceComparator = new Comparator<ProductDTO>() {         
+	    @Override         
+	    public int compare(ProductDTO jc1, ProductDTO jc2) {             
+	      return (jc2.getPrice() < jc1.getPrice() ? -1 :                     
+	              (jc2.getPrice() == jc1.getPrice() ? 0 : 1));           
+	    }     
+	  };
 }
